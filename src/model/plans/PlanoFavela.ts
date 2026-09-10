@@ -1,0 +1,16 @@
+import PlanoFiel from "./PlanoFiel";
+
+export default class PlanoFavela extends PlanoFiel {
+    
+    public constructor() {
+        super("Plano Favela", 20.00, ["25% de desconto na compra de ingressos", "10% de desconto na loja ShopTimão"]);
+    }
+
+    public calcularValorIngresso(precoBase: number): number {
+        return precoBase * 0.70;
+    }
+
+    public calcularDescontoLoja(valorProduto: number): number {
+        return valorProduto * 0.90;
+    }
+}
