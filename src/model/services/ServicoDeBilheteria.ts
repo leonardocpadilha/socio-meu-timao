@@ -12,7 +12,12 @@ export default class ServicoDeBilheteria {
             return null;
         }
 
-        const valorFinal = torcedor.getPlano().calcularValorIngresso(partida.getPrecoBase());
+        const plano = torcedor.getPlano();
+        if (!plano) {
+            return null;
+        }
+
+        const valorFinal = plano.calcularValorIngresso(partida.getPrecoBase());
 
         partida.reservarIngresso();
 

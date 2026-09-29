@@ -7,12 +7,16 @@ const Ingresso_1 = __importDefault(require("../domain/Ingresso"));
 class ServicoDeBilheteria {
     processarCompra(torcedor, partida) {
         if (!torcedor.getAdimplente()) {
-            throw new Error("Torcedor inadimplente. Regularize sua mensalidade.");
+            return null;
         }
         if (!partida.temVaga()) {
-            throw new Error("Os ingressos para esta partida estão esgotados");
+            return null;
         }
-        const valorFinal = torcedor.getPlano().calcularValorIngresso(partida.getPrecoBase());
+        const plano = torcedor.getPlano();
+        if (!plano) {
+            return null;
+        }
+        const valorFinal = plano.calcularValorIngresso(partida.getPrecoBase());
         partida.reservarIngresso();
         return new Ingresso_1.default(torcedor, partida, valorFinal);
     }

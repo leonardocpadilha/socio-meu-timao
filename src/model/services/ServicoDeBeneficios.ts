@@ -7,6 +7,11 @@ export default class ServicoDeBeneficios {
             return valorProduto;
         }
 
-        return torcedor.getPlano().calcularDescontoLoja(valorProduto);
+        const plano = torcedor.getPlano();
+        if (!plano) {
+            return valorProduto;
+        }
+
+        return plano.calcularDescontoLoja(valorProduto);
     }
 }

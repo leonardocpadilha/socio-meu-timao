@@ -3,9 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class ServicoDeBeneficios {
     aplicarDescontoLoja(torcedor, valorProduto) {
         if (!torcedor.getAdimplente()) {
-            throw new Error("Torcedor inadimplente.");
+            return valorProduto;
         }
-        return torcedor.getPlano().calcularDescontoLoja(valorProduto);
+        const plano = torcedor.getPlano();
+        if (!plano) {
+            return valorProduto;
+        }
+        return plano.calcularDescontoLoja(valorProduto);
     }
 }
 exports.default = ServicoDeBeneficios;

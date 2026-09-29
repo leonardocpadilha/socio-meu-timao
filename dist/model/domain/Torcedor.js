@@ -1,19 +1,59 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Torcedor {
+    id;
     nome;
+    cpf;
+    data_nascimento;
+    email;
+    senha;
     adimplente = true;
     plano;
-    constructor(nome, plano, adimplente = true) {
+    constructor(nome, cpf, senha) {
+        this.id = Date.now().toString();
         this.nome = nome;
-        this.adimplente = adimplente;
-        this.plano = plano;
+        this.cpf = cpf;
+        this.data_nascimento = "";
+        this.email = "";
+        this.senha = senha;
+        this.adimplente = true;
+        this.plano = null;
+    }
+    getId() {
+        return this.id;
+    }
+    setId(id) {
+        this.id = id;
     }
     getNome() {
         return this.nome;
     }
     setNome(nome) {
         this.nome = nome;
+    }
+    getCpf() {
+        return this.cpf;
+    }
+    setCpf(cpf) {
+        this.cpf = cpf;
+    }
+    getDataNascimento() {
+        return this.data_nascimento;
+    }
+    setDataNascimento(data_nascimento) {
+        this.data_nascimento = data_nascimento;
+    }
+    getEmail() {
+        return this.email;
+    }
+    setEmail(email) {
+        this.email = email;
+    }
+    getSenha() {
+        return this.senha;
+    }
+    setSenha(senha) {
+        this.senha = senha;
     }
     getAdimplente() {
         return this.adimplente;

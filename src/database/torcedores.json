@@ -1,0 +1,24 @@
+{
+  "torcedores": [
+    {
+      "id": "",
+      "nome": "Memphis Depay",
+      "cpf": "",
+      "data_nascimento": "",
+      "email": "memphis@gmail.com",
+      "senha": "chosen123",
+      "adimplente": true,
+      "plano": null
+    },
+    {
+      "id": "1790714981090",
+      "nome": "Yuri Alberto",
+      "cpf": "145.678.980-45",
+      "data_nascimento": "16/02/2001",
+      "email": "yuria@outlook.com",
+      "senha": "gol123",
+      "adimplente": true,
+      "plano": null
+    }
+  ]
+}
