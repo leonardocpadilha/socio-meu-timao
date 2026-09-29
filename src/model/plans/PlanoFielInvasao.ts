@@ -1,9 +1,9 @@
 import PlanoFiel from "./PlanoFiel";
 
-export default class PlanoDoutor extends PlanoFiel {
+export default class PlanoFielInvasao extends PlanoFiel {
     
     public constructor() {
-        super("Plano Doutor", 45.00, ["50% de desconto na compra de ingressos", "20% de desconto na loja ShopTimão", "Frete reduzido na loja"]);
+        super("Plano Fiel Invasao", 45.00, ["50% de desconto na compra de ingressos", "20% de desconto na loja ShopTimão", "Frete reduzido na loja"]);
     }
 
     public calcularValorIngresso(precoBase: number): number {

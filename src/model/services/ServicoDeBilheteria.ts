@@ -3,13 +3,13 @@ import Partida from "../domain/Partida";
 import Ingresso from "../domain/Ingresso";
 
 export default class ServicoDeBilheteria {
-    public processarCompra(torcedor: Torcedor, partida: Partida): Ingresso {
+    public processarCompra(torcedor: Torcedor, partida: Partida): Ingresso | null {
         if (!torcedor.getAdimplente()) {
-            throw new Error("Torcedor inadimplente. Regularize sua mensalidade.");
+            return null;
         }
 
         if (!partida.temVaga()) {
-            throw new Error("Os ingressos para esta partida estão esgotados");
+            return null;
         }
 
         const valorFinal = torcedor.getPlano().calcularValorIngresso(partida.getPrecoBase());
