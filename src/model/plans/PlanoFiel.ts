@@ -2,7 +2,7 @@ export default abstract class PlanoFiel {
     protected nome: string;
     protected mensalidadeBase: number;
     protected beneficios: string[];
-    
+
     public constructor(nome: string, mensalidadeBase: number, beneficios: string[]) {
         this.nome = nome;
         this.mensalidadeBase = mensalidadeBase;

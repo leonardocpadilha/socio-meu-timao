@@ -12,10 +12,10 @@ export default class MainController {
     }
 
     public start(): void {
-        while(true) {
+        while (true) {
             this.mainScreen.showBanner();
             const option = this.mainScreen.showMenu();
-            switch(option) {
+            switch (option) {
                 case -1:
                     console.log("Saindo do Sócio Meu Timão...");
                     return;
@@ -38,7 +38,11 @@ export default class MainController {
 
     private cadastrarTorcedor(): void {
         const dadosTorcedor = this.mainScreen.pedirDadosCadastro();
-        const novoTorcedor = new Torcedor(dadosTorcedor.nome, dadosTorcedor.cpf, dadosTorcedor.senha);
+        const novoTorcedor = new Torcedor(
+            dadosTorcedor.nome,
+            dadosTorcedor.cpf,
+            dadosTorcedor.senha,
+        );
         novoTorcedor.setDataNascimento(dadosTorcedor.dataNascimento);
         novoTorcedor.setEmail(dadosTorcedor.email);
         this.torcedorRepository.salvar(novoTorcedor);
