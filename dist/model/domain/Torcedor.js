@@ -13,9 +13,9 @@ class Torcedor {
         this.id = Date.now().toString();
         this.nome = nome;
         this.cpf = cpf;
+        this.senha = senha;
         this.data_nascimento = "";
         this.email = "";
-        this.senha = senha;
         this.adimplente = true;
         this.plano = null;
     }
@@ -37,6 +37,12 @@ class Torcedor {
     setCpf(cpf) {
         this.cpf = cpf;
     }
+    getSenha() {
+        return this.senha;
+    }
+    setSenha(senha) {
+        this.senha = senha;
+    }
     getDataNascimento() {
         return this.data_nascimento;
     }
@@ -48,12 +54,6 @@ class Torcedor {
     }
     setEmail(email) {
         this.email = email;
-    }
-    getSenha() {
-        return this.senha;
-    }
-    setSenha(senha) {
-        this.senha = senha;
     }
     getAdimplente() {
         return this.adimplente;

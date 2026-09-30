@@ -25,9 +25,16 @@ export default class Partida {
     return this.ingressosDisponiveis > 0;
   }
 
-  public reservarIngresso(): void {
-    if (this.temVaga()) {
-      this.ingressosDisponiveis--;
+  public reservarIngresso(quantidade: number = 1): void {
+    if (quantidade <= 0) {
+      return;
     }
+    if (this.ingressosDisponiveis >= quantidade) {
+      this.ingressosDisponiveis -= quantidade;
+    }
+  }
+
+  public liberarIngresso(): void {
+    this.ingressosDisponiveis++;
   }
 }

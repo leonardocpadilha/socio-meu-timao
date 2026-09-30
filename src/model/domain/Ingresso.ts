@@ -23,4 +23,8 @@ export default class Ingresso {
   public getValorPago(): number {
     return this.valorPago;
   }
+
+  public liberar(): void {
+    this.partida.liberarIngresso();
+  }
 }

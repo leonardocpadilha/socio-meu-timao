@@ -81,7 +81,7 @@ export default class Torcedor {
     return this.plano;
   }
 
-  public setPlano(plano: PlanoFiel): void {
+  public setPlano(plano: PlanoFiel | null): void {
     this.plano = plano;
   }
 }

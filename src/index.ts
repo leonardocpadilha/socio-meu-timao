@@ -1,8 +1,11 @@
 import MainController from "./controller/MainController";
-import { TorcedorRepositoryJSON } from "./repository/TorcedorRepositoryJSON";
+import { TorcedorRepositoryJson } from "./repository/TorcedorRepositoryJson";
+import ServicoDeTorcedor from "./model/services/ServicoDeTorcedor";
 
-const repositoryJSON = new TorcedorRepositoryJSON();
+const repository = new TorcedorRepositoryJson();
 
-const controller = new MainController(repositoryJSON);
+const servico = new ServicoDeTorcedor(repository);
+
+const controller = new MainController(servico);
 
 controller.start();

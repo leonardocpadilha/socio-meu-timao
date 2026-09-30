@@ -6,13 +6,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const PlanoFiel_1 = __importDefault(require("./PlanoFiel"));
 class PlanoFielDemocracia extends PlanoFiel_1.default {
     constructor() {
-        super("Plano Fiel Democracia", 20.00, ["25% de desconto na compra de ingressos", "10% de desconto na loja ShopTimão"]);
+        super("Plano Fiel Democracia", 20.0, [
+            "25% de desconto na compra de ingressos",
+            "10% de desconto na loja ShopTimão",
+        ]);
     }
     calcularValorIngresso(precoBase) {
-        return precoBase * 0.70;
+        return precoBase * 0.7;
     }
     calcularDescontoLoja(valorProduto) {
-        return valorProduto * 0.90;
+        return valorProduto * 0.9;
     }
 }
 exports.default = PlanoFielDemocracia;

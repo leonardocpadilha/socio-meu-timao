@@ -16,12 +16,7 @@ class MainScreen {
         console.log("Bem-vindo Corinthiano(a)! Escolha uma das opções abaixo para começar:\n");
     }
     showMenu() {
-        const options = [
-            "Login",
-            "Cadastre-se",
-            "Conheça",
-            "Planos"
-        ];
+        const options = ["Login", "Cadastre-se", "Conheça", "Planos"];
         return readline_sync_1.default.keyInSelect(options, "Por onde você quer iniciar? ", { cancel: "Sair" });
     }
     pedirDadosCadastro() {
@@ -30,7 +25,7 @@ class MainScreen {
         const dataNascimento = readline_sync_1.default.question("Digite sua data de nascimento (dd/mm/aaaa): ");
         const email = readline_sync_1.default.questionEMail("Digite seu e-mail: ");
         const senha = readline_sync_1.default.question("Crie sua senha: ", { hideEchoBack: true });
-        return { nome, cpf, dataNascimento, email, senha, };
+        return { nome, cpf, dataNascimento, email, senha };
     }
     mostrarMensagem(mensagem) {
         console.log(`\n${mensagem}`);

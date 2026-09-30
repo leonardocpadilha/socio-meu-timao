@@ -9,7 +9,7 @@ export default class PlanoFielDemocracia extends PlanoFiel {
   }
 
   public calcularValorIngresso(precoBase: number): number {
-    return precoBase * 0.7;
+    return precoBase * 0.75;
   }
 
   public calcularDescontoLoja(valorProduto: number): number {

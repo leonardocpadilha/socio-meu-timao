@@ -6,11 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Torcedor_1 = __importDefault(require("../model/domain/Torcedor"));
 const MainScreen_1 = __importDefault(require("../view/MainScreen"));
 class MainController {
-    torcedorRepository;
+    servicoDeTorcedor;
     mainScreen;
     torcedorLogado = null;
-    constructor(torcedorRepository) {
-        this.torcedorRepository = torcedorRepository;
+    constructor(servicoDeTorcedor) {
+        this.servicoDeTorcedor = servicoDeTorcedor;
         this.mainScreen = new MainScreen_1.default();
     }
     start() {
@@ -42,22 +42,22 @@ class MainController {
         const novoTorcedor = new Torcedor_1.default(dadosTorcedor.nome, dadosTorcedor.cpf, dadosTorcedor.senha);
         novoTorcedor.setDataNascimento(dadosTorcedor.dataNascimento);
         novoTorcedor.setEmail(dadosTorcedor.email);
-        this.torcedorRepository.salvar(novoTorcedor);
+        this.servicoDeTorcedor.cadastrar(novoTorcedor);
         this.mainScreen.mostrarMensagem("Cadastro realizado com sucesso!");
     }
     loginTorcedor() {
         const dadosLogin = this.mainScreen.solicitarDadosLogin();
-        const torcedorEncontrado = this.torcedorRepository.buscarPorCpf(dadosLogin.cpf);
+        const torcedorEncontrado = this.servicoDeTorcedor.buscarPorCpf(dadosLogin.cpf);
         if (!torcedorEncontrado) {
             this.mainScreen.mostrarMensagem("CPF não encontrado. Por favor, cadastre-se primeiro.");
             return;
         }
-        if (torcedorEncontrado.senha !== dadosLogin.senha) {
+        if (torcedorEncontrado.getSenha() !== dadosLogin.senha) {
             this.mainScreen.mostrarMensagem("Senha incorreta. Por favor, tente novamente.");
             return;
         }
         this.torcedorLogado = torcedorEncontrado;
-        this.mainScreen.mostrarMensagem(`Bem-vindo, ${torcedorEncontrado.nome}!`);
+        this.mainScreen.mostrarMensagem(`Bem-vindo, ${torcedorEncontrado.getNome()}, ${torcedorEncontrado.getId()}!`);
     }
 }
 exports.default = MainController;

@@ -1,5 +1,6 @@
 import Torcedor from "../model/domain/Torcedor";
-import { ITorcedorRepository } from "../repository/ITorcedorRepository";
+import { ITorcedorRepository } from "../interfaces/ITorcedorRepository";
+import ServicoDeTorcedor from "../model/services/ServicoDeTorcedor";
 import MainScreen from "../view/MainScreen";
 
 export default class MainController {
@@ -7,7 +8,7 @@ export default class MainController {
 
     private torcedorLogado: Torcedor | null = null;
 
-    constructor(private torcedorRepository: ITorcedorRepository) {
+    constructor(private servicoDeTorcedor: ServicoDeTorcedor) {
         this.mainScreen = new MainScreen();
     }
 
@@ -45,22 +46,22 @@ export default class MainController {
         );
         novoTorcedor.setDataNascimento(dadosTorcedor.dataNascimento);
         novoTorcedor.setEmail(dadosTorcedor.email);
-        this.torcedorRepository.salvar(novoTorcedor);
+        this.servicoDeTorcedor.cadastrar(novoTorcedor);
         this.mainScreen.mostrarMensagem("Cadastro realizado com sucesso!");
     }
 
     private loginTorcedor(): void {
         const dadosLogin = this.mainScreen.solicitarDadosLogin();
-        const torcedorEncontrado = this.torcedorRepository.buscarPorCpf(dadosLogin.cpf) as any;
+        const torcedorEncontrado = this.servicoDeTorcedor.buscarPorCpf(dadosLogin.cpf);
         if (!torcedorEncontrado) {
             this.mainScreen.mostrarMensagem("CPF não encontrado. Por favor, cadastre-se primeiro.");
             return;
         }
-        if (torcedorEncontrado.senha !== dadosLogin.senha) {
+        if (torcedorEncontrado.getSenha() !== dadosLogin.senha) {
             this.mainScreen.mostrarMensagem("Senha incorreta. Por favor, tente novamente.");
             return;
         }
         this.torcedorLogado = torcedorEncontrado;
-        this.mainScreen.mostrarMensagem(`Bem-vindo, ${torcedorEncontrado.nome}!`);
+        this.mainScreen.mostrarMensagem(`Bem-vindo, ${torcedorEncontrado.getNome()}, ${torcedorEncontrado.getId()}!`);
     }
 }

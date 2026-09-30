@@ -1,13 +1,13 @@
 import Torcedor from "../domain/Torcedor";
 import Partida from "../domain/Partida";
 import Ingresso from "../domain/Ingresso";
+import { Compra } from "../domain/Compra";
 
 export default class ServicoDeBilheteria {
-  public processarCompra(torcedor: Torcedor, partida: Partida): Ingresso | null {
+  public processarCompra(torcedor: Torcedor, partida: Partida): Compra | null {
     if (!torcedor.getAdimplente()) {
       return null;
     }
-
     if (!partida.temVaga()) {
       return null;
     }
@@ -21,6 +21,8 @@ export default class ServicoDeBilheteria {
 
     partida.reservarIngresso();
 
-    return new Ingresso(torcedor, partida, valorFinal);
+    const ingresso = new Ingresso(torcedor, partida, valorFinal);
+
+    return new Compra(ingresso);
   }
 }
