@@ -21,10 +21,28 @@ class Partida {
     temVaga() {
         return this.ingressosDisponiveis > 0;
     }
-    reservarIngresso() {
-        if (this.temVaga()) {
-            this.ingressosDisponiveis--;
+    reservarIngresso(param1, param2) {
+        let quantidade = 1;
+        if (typeof param1 === "number") {
+            quantidade = param1;
         }
+        else if (typeof param2 === "string") {
+            if (param1 !== this.adversario) {
+                return;
+            }
+            if (typeof param2 === "number") {
+                quantidade = param2;
+            }
+        }
+        if (quantidade <= 0) {
+            return;
+        }
+        if (this.ingressosDisponiveis >= quantidade) {
+            this.ingressosDisponiveis -= quantidade;
+        }
+    }
+    liberarIngresso() {
+        this.ingressosDisponiveis++;
     }
 }
 exports.default = Partida;

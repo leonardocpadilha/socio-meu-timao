@@ -1,5 +1,5 @@
 import fs from "fs";
-import { ITorcedorRepository } from "../interfaces/ITorcedorRepository";
+import { ITorcedorRepository } from "./ITorcedorRepository";
 import Torcedor from "../model/domain/Torcedor";
 
 export class TorcedorRepositoryJson implements ITorcedorRepository {
@@ -16,7 +16,7 @@ export class TorcedorRepositoryJson implements ITorcedorRepository {
     const dados = this.lerDados();
     const torcedores = dados.torcedores;
     torcedores.push(torcedor);
-    
+
     const json = JSON.stringify(dados);
     fs.writeFileSync(this.caminhoArquivo, json, "utf-8");
   }
@@ -29,7 +29,7 @@ export class TorcedorRepositoryJson implements ITorcedorRepository {
       const torcedor = new Torcedor(
         torcedorEncontrado.nome,
         torcedorEncontrado.cpf,
-        torcedorEncontrado.senha
+        torcedorEncontrado.senha,
       );
       torcedor.setId(torcedorEncontrado.id);
       torcedor.setDataNascimento(torcedorEncontrado.data_nascimento);
@@ -40,5 +40,4 @@ export class TorcedorRepositoryJson implements ITorcedorRepository {
     }
     return null;
   }
-
 }

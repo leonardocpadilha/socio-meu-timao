@@ -1,5 +1,5 @@
 import Torcedor from "../domain/Torcedor";
-import { ITorcedorRepository } from "../../interfaces/ITorcedorRepository";
+import { ITorcedorRepository } from "../../repository/ITorcedorRepository";
 
 export default class ServicoDeTorcedor {
   private repository: ITorcedorRepository;

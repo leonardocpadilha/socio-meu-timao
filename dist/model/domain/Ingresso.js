@@ -18,5 +18,8 @@ class Ingresso {
     getValorPago() {
         return this.valorPago;
     }
+    liberar() {
+        this.partida.liberarIngresso();
+    }
 }
 exports.default = Ingresso;

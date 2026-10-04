@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Ingresso_1 = __importDefault(require("../domain/Ingresso"));
+const Compra_1 = require("../domain/Compra");
 class ServicoDeBilheteria {
     processarCompra(torcedor, partida) {
         if (!torcedor.getAdimplente()) {
@@ -18,7 +19,8 @@ class ServicoDeBilheteria {
         }
         const valorFinal = plano.calcularValorIngresso(partida.getPrecoBase());
         partida.reservarIngresso();
-        return new Ingresso_1.default(torcedor, partida, valorFinal);
+        const ingresso = new Ingresso_1.default(torcedor, partida, valorFinal);
+        return new Compra_1.Compra(ingresso);
     }
 }
 exports.default = ServicoDeBilheteria;
