@@ -28,7 +28,9 @@ class Ingresso {
         if (this.status === StatusIngresso_1.StatusIngresso.ATIVO) {
             this.status = StatusIngresso_1.StatusIngresso.CANCELADO;
             this.partida.liberarIngresso();
+            return true;
         }
+        return false;
     }
 }
 exports.default = Ingresso;

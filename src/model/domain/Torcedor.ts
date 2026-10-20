@@ -1,32 +1,20 @@
 import PlanoFiel from "../plans/PlanoFiel";
 
 export default class Torcedor {
-  private id: string;
   private nome: string;
   private cpf: string;
   private dataNascimento: string;
-  private email: string;
   private senha: string;
   private adimplente: boolean;
   private plano: PlanoFiel | null;
 
   public constructor(nome: string, cpf: string, senha: string) {
-    this.id = Date.now().toString();
     this.nome = nome;
     this.cpf = cpf;
     this.senha = senha;
     this.dataNascimento = "";
-    this.email = "";
     this.adimplente = true;
     this.plano = null;
-  }
-
-  public getId(): string {
-    return this.id;
-  }
-
-  public setId(id: string): void {
-    this.id = id;
   }
 
   public getNome(): string {
@@ -59,14 +47,6 @@ export default class Torcedor {
 
   public setDataNascimento(dataNascimento: string): void {
     this.dataNascimento = dataNascimento;
-  }
-
-  public getEmail(): string {
-    return this.email;
-  }
-
-  public setEmail(email: string): void {
-    this.email = email;
   }
 
   public getAdimplente(): boolean {

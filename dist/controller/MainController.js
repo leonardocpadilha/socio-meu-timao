@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Torcedor_1 = __importDefault(require("../model/domain/Torcedor"));
-const StatusIngresso_1 = require("../enum/StatusIngresso");
 const ServicoDeBilheteria_1 = __importDefault(require("../model/services/ServicoDeBilheteria"));
 const PlanoFielDemocracia_1 = __importDefault(require("../model/plans/PlanoFielDemocracia"));
 const PlanoFielInvasao_1 = __importDefault(require("../model/plans/PlanoFielInvasao"));
@@ -49,11 +48,28 @@ class MainController {
     }
     cadastrarTorcedor() {
         const dadosTorcedor = this.mainScreen.pedirDadosCadastro();
+        const opcaoPlano = this.mainScreen.selecionarPlano();
+        if (opcaoPlano === -1) {
+            this.mainScreen.mostrarMensagem("Cadastro cancelado.");
+            return;
+        }
         const novoTorcedor = new Torcedor_1.default(dadosTorcedor.nome, dadosTorcedor.cpf, dadosTorcedor.senha);
         novoTorcedor.setDataNascimento(dadosTorcedor.dataNascimento);
-        novoTorcedor.setEmail(dadosTorcedor.email);
+        if (opcaoPlano === 0) {
+            novoTorcedor.setPlano(new PlanoFielDemocracia_1.default());
+        }
+        else if (opcaoPlano === 1) {
+            novoTorcedor.setPlano(new PlanoFielInvasao_1.default());
+        }
+        else if (opcaoPlano === 2) {
+            novoTorcedor.setPlano(new PlanoFielMundial_1.default());
+        }
+        else {
+            this.mainScreen.mostrarOpcaoInvalida();
+            return;
+        }
         this.servicoDeTorcedor.cadastrar(novoTorcedor);
-        this.mainScreen.mostrarMensagem("Cadastro realizado com sucesso!");
+        this.mainScreen.mostrarMensagem(`Cadastro realizado com sucesso! Plano ${novoTorcedor.getPlano()?.getNome()} ativado.`);
     }
     loginTorcedor() {
         const dadosLogin = this.mainScreen.solicitarDadosLogin();
@@ -75,18 +91,15 @@ class MainController {
             const option = this.mainScreen.showMenuLogado(this.torcedorLogado.getNome());
             switch (option) {
                 case 0:
-                    this.escolherPlano();
-                    break;
-                case 1:
                     this.comprarIngresso();
                     break;
-                case 2:
+                case 1:
                     this.cancelarIngresso();
                     break;
-                case 3:
+                case 2:
                     this.verMeusDados();
                     break;
-                case 4:
+                case 3:
                     this.torcedorLogado = null;
                     this.ultimoIngresso = null;
                     this.mainScreen.mostrarMensagem("Você saiu da sua conta.");
@@ -94,34 +107,9 @@ class MainController {
             }
         }
     }
-    escolherPlano() {
-        if (!this.torcedorLogado)
-            return;
-        const opcao = this.mainScreen.selecionarPlano();
-        if (opcao === 0) {
-            this.torcedorLogado.setPlano(new PlanoFielDemocracia_1.default());
-        }
-        else if (opcao === 1) {
-            this.torcedorLogado.setPlano(new PlanoFielInvasao_1.default());
-        }
-        else if (opcao === 2) {
-            this.torcedorLogado.setPlano(new PlanoFielMundial_1.default());
-        }
-        else {
-            return;
-        }
-        const plano = this.torcedorLogado.getPlano();
-        if (plano) {
-            this.mainScreen.mostrarSucessoPlano(plano.getNome());
-        }
-    }
     comprarIngresso() {
         if (!this.torcedorLogado)
             return;
-        if (!this.torcedorLogado.getPlano()) {
-            this.mainScreen.mostrarMensagem("Você ainda não possui um plano ativo! Escolha um plano primeiro para ter desconto nos ingressos.");
-            return;
-        }
         const partidas = this.servicoDeBilheteria.getPartidas();
         const indice = this.mainScreen.selecionarPartida(partidas);
         if (indice === -1) {
@@ -134,7 +122,7 @@ class MainController {
             this.mainScreen.mostrarSucessoCompra(partidaEscolhida, ingresso);
         }
         else {
-            this.mainScreen.mostrarMensagem("Não foi possível comprar o ingresso (sem vagas ou torcedor inadimplente).");
+            this.mainScreen.mostrarMensagem("Não foi possível comprar o ingresso (sem plano ativo, sem vagas ou torcedor inadimplente).");
         }
     }
     cancelarIngresso() {
@@ -142,11 +130,10 @@ class MainController {
             this.mainScreen.mostrarMensagem("Você não possui nenhum ingresso comprado para cancelar.");
             return;
         }
-        if (this.ultimoIngresso.getStatus() === StatusIngresso_1.StatusIngresso.CANCELADO) {
+        if (!this.ultimoIngresso.liberar()) {
             this.mainScreen.mostrarMensagem("Este ingresso já se encontra cancelado.");
             return;
         }
-        this.ultimoIngresso.liberar();
         this.mainScreen.mostrarSucessoCancelamento(this.ultimoIngresso);
     }
     verMeusDados() {

@@ -1,6 +1,10 @@
 import fs from "fs";
 import { ITorcedorRepository } from "./ITorcedorRepository";
 import Torcedor from "../model/domain/Torcedor";
+import PlanoFiel from "../model/plans/PlanoFiel";
+import PlanoFielDemocracia from "../model/plans/PlanoFielDemocracia";
+import PlanoFielInvasao from "../model/plans/PlanoFielInvasao";
+import PlanoFielMundial from "../model/plans/PlanoFielMundial";
 
 export class TorcedorRepositoryJson implements ITorcedorRepository {
   private caminhoArquivo = "src/database/torcedores.json";
@@ -14,7 +18,15 @@ export class TorcedorRepositoryJson implements ITorcedorRepository {
 
   public salvar(torcedor: Torcedor): void {
     const dados = this.lerDados();
-    dados.torcedores.push(torcedor);
+    const plano = torcedor.getPlano();
+    dados.torcedores.push({
+      nome: torcedor.getNome(),
+      cpf: torcedor.getCpf(),
+      dataNascimento: torcedor.getDataNascimento(),
+      senha: torcedor.getSenha(),
+      adimplente: torcedor.getAdimplente(),
+      plano: plano ? { nome: plano.getNome() } : null,
+    });
 
     const json = JSON.stringify(dados, null, 2);
     fs.writeFileSync(this.caminhoArquivo, json, "utf-8");
@@ -30,13 +42,26 @@ export class TorcedorRepositoryJson implements ITorcedorRepository {
         torcedorEncontrado.cpf,
         torcedorEncontrado.senha,
       );
-      torcedor.setId(torcedorEncontrado.id);
       torcedor.setDataNascimento(torcedorEncontrado.dataNascimento);
-      torcedor.setEmail(torcedorEncontrado.email);
       torcedor.setAdimplente(torcedorEncontrado.adimplente);
-      torcedor.setPlano(torcedorEncontrado.plano);
+      torcedor.setPlano(this.criarPlano(torcedorEncontrado.plano?.nome));
       return torcedor;
     }
     return null;
+  }
+
+  private criarPlano(nome: string | undefined): PlanoFiel | null {
+    switch (nome) {
+      case undefined:
+        return null;
+      case "Plano Fiel Democracia":
+        return new PlanoFielDemocracia();
+      case "Plano Fiel Invasao":
+        return new PlanoFielInvasao();
+      case "Plano Fiel Mundial":
+        return new PlanoFielMundial();
+      default:
+        return null;
+    }
   }
 }

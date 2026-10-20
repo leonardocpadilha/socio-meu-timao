@@ -23,9 +23,8 @@ class MainScreen {
         const nome = readline_sync_1.default.question("Digite seu nome: ");
         const cpf = readline_sync_1.default.question("Digite seu CPF: ");
         const dataNascimento = readline_sync_1.default.question("Digite sua data de nascimento (dd/mm/aaaa): ");
-        const email = readline_sync_1.default.questionEMail("Digite seu e-mail: ");
         const senha = readline_sync_1.default.question("Crie sua senha: ", { hideEchoBack: true });
-        return { nome, cpf, dataNascimento, email, senha };
+        return { nome, cpf, dataNascimento, senha };
     }
     mostrarMensagem(mensagem) {
         console.log(`\n${mensagem}`);
@@ -114,7 +113,6 @@ Existe um plano para cada tipo de fiel torcedor. Escolha o
         console.clear();
         console.log(`\nOlá, ${nomeTorcedor}! Área do Sócio.`);
         const options = [
-            "Escolher / Alterar Plano",
             "Comprar Ingresso",
             "Cancelar Ingresso",
             "Ver Meus Dados",
@@ -134,7 +132,7 @@ Existe um plano para cada tipo de fiel torcedor. Escolha o
             "Fiel Invasão (R$ 45,00/mês - 50% de desconto)",
             "Fiel Mundial (R$ 110,00/mês - 75% de desconto)",
         ];
-        return readline_sync_1.default.keyInSelect(options, "Qual plano deseja assinar? ", { cancel: "Voltar" });
+        return readline_sync_1.default.keyInSelect(options, "Qual plano deseja assinar? ", { cancel: "Cancelar cadastro" });
     }
     selecionarPartida(partidas) {
         console.clear();
@@ -144,9 +142,6 @@ Existe um plano para cada tipo de fiel torcedor. Escolha o
     }
     mostrarBoasVindas(nome) {
         this.mostrarMensagem(`Bem-vindo(a), ${nome}!`);
-    }
-    mostrarSucessoPlano(nomePlano) {
-        this.mostrarMensagem(`Plano ${nomePlano} ativado com sucesso!`);
     }
     mostrarSucessoCompra(partida, ingresso) {
         console.clear();
@@ -184,7 +179,6 @@ A vaga foi devolvida para a partida!
 └────────────────────────────────────────────────────────┘
 Nome:                ${torcedor.getNome()}
 CPF:                 ${torcedor.getCpf()}
-E-mail:              ${torcedor.getEmail()}
 Data de Nascimento:  ${torcedor.getDataNascimento()}
 Situação:            ${torcedor.getAdimplente() ? "Adimplente" : "Inadimplente"}
 Plano Atual:         ${nomePlano}

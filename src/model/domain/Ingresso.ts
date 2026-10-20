@@ -31,10 +31,13 @@ export default class Ingresso {
     return this.status;
   }
 
-  public liberar(): void {
+  public liberar(): boolean {
     if (this.status === StatusIngresso.ATIVO) {
       this.status = StatusIngresso.CANCELADO;
       this.partida.liberarIngresso();
+      return true;
     }
+
+    return false;
   }
 }
