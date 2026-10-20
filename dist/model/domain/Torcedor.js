@@ -4,17 +4,17 @@ class Torcedor {
     id;
     nome;
     cpf;
-    data_nascimento;
+    dataNascimento;
     email;
     senha;
-    adimplente = true;
+    adimplente;
     plano;
     constructor(nome, cpf, senha) {
         this.id = Date.now().toString();
         this.nome = nome;
         this.cpf = cpf;
         this.senha = senha;
-        this.data_nascimento = "";
+        this.dataNascimento = "";
         this.email = "";
         this.adimplente = true;
         this.plano = null;
@@ -44,10 +44,10 @@ class Torcedor {
         this.senha = senha;
     }
     getDataNascimento() {
-        return this.data_nascimento;
+        return this.dataNascimento;
     }
-    setDataNascimento(data_nascimento) {
-        this.data_nascimento = data_nascimento;
+    setDataNascimento(dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
     getEmail() {
         return this.email;

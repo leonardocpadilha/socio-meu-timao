@@ -1,10 +1,19 @@
 import Torcedor from "../domain/Torcedor";
 import Partida from "../domain/Partida";
 import Ingresso from "../domain/Ingresso";
-import { Compra } from "../domain/Compra";
 
 export default class ServicoDeBilheteria {
-  public processarCompra(torcedor: Torcedor, partida: Partida): Compra | null {
+  private partidas: Partida[] = [
+    new Partida("Palmeiras", 100.0, 50),
+    new Partida("São Paulo", 80.0, 40),
+    new Partida("Santos", 60.0, 30),
+  ];
+
+  public getPartidas(): Partida[] {
+    return this.partidas;
+  }
+
+  public processarCompra(torcedor: Torcedor, partida: Partida): Ingresso | null {
     if (!torcedor.getAdimplente()) {
       return null;
     }
@@ -21,8 +30,6 @@ export default class ServicoDeBilheteria {
 
     partida.reservarIngresso();
 
-    const ingresso = new Ingresso(torcedor, partida, valorFinal);
-
-    return new Compra(ingresso);
+    return new Ingresso(torcedor, partida, valorFinal);
   }
 }

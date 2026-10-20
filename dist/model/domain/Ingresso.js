@@ -1,13 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const StatusIngresso_1 = require("../../enum/StatusIngresso");
 class Ingresso {
     torcedor;
     partida;
     valorPago;
+    status;
     constructor(torcedor, partida, valorPago) {
         this.torcedor = torcedor;
         this.partida = partida;
         this.valorPago = valorPago;
+        this.status = StatusIngresso_1.StatusIngresso.ATIVO;
     }
     getTorcedor() {
         return this.torcedor;
@@ -18,8 +21,14 @@ class Ingresso {
     getValorPago() {
         return this.valorPago;
     }
+    getStatus() {
+        return this.status;
+    }
     liberar() {
-        this.partida.liberarIngresso();
+        if (this.status === StatusIngresso_1.StatusIngresso.ATIVO) {
+            this.status = StatusIngresso_1.StatusIngresso.CANCELADO;
+            this.partida.liberarIngresso();
+        }
     }
 }
 exports.default = Ingresso;

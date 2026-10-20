@@ -14,17 +14,16 @@ export class TorcedorRepositoryJson implements ITorcedorRepository {
 
   public salvar(torcedor: Torcedor): void {
     const dados = this.lerDados();
-    const torcedores = dados.torcedores;
-    torcedores.push(torcedor);
+    dados.torcedores.push(torcedor);
 
-    const json = JSON.stringify(dados);
+    const json = JSON.stringify(dados, null, 2);
     fs.writeFileSync(this.caminhoArquivo, json, "utf-8");
   }
 
   public buscarPorCpf(cpf: string): Torcedor | null {
     const dados = this.lerDados();
-    const torcedores = dados.torcedores;
-    const torcedorEncontrado = torcedores.find((torcedor: any) => torcedor.cpf === cpf);
+    const torcedorEncontrado = dados.torcedores.find((t: any) => t.cpf === cpf);
+
     if (torcedorEncontrado) {
       const torcedor = new Torcedor(
         torcedorEncontrado.nome,
@@ -32,7 +31,7 @@ export class TorcedorRepositoryJson implements ITorcedorRepository {
         torcedorEncontrado.senha,
       );
       torcedor.setId(torcedorEncontrado.id);
-      torcedor.setDataNascimento(torcedorEncontrado.data_nascimento);
+      torcedor.setDataNascimento(torcedorEncontrado.dataNascimento);
       torcedor.setEmail(torcedorEncontrado.email);
       torcedor.setAdimplente(torcedorEncontrado.adimplente);
       torcedor.setPlano(torcedorEncontrado.plano);

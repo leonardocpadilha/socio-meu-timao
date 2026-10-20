@@ -4,10 +4,10 @@ export default class Torcedor {
   private id: string;
   private nome: string;
   private cpf: string;
-  private data_nascimento: string;
+  private dataNascimento: string;
   private email: string;
   private senha: string;
-  private adimplente: boolean = true;
+  private adimplente: boolean;
   private plano: PlanoFiel | null;
 
   public constructor(nome: string, cpf: string, senha: string) {
@@ -15,7 +15,7 @@ export default class Torcedor {
     this.nome = nome;
     this.cpf = cpf;
     this.senha = senha;
-    this.data_nascimento = "";
+    this.dataNascimento = "";
     this.email = "";
     this.adimplente = true;
     this.plano = null;
@@ -54,11 +54,11 @@ export default class Torcedor {
   }
 
   public getDataNascimento(): string {
-    return this.data_nascimento;
+    return this.dataNascimento;
   }
 
-  public setDataNascimento(data_nascimento: string): void {
-    this.data_nascimento = data_nascimento;
+  public setDataNascimento(dataNascimento: string): void {
+    this.dataNascimento = dataNascimento;
   }
 
   public getEmail(): string {

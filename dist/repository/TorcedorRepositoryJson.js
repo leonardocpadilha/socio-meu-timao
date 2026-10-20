@@ -15,19 +15,17 @@ class TorcedorRepositoryJson {
     }
     salvar(torcedor) {
         const dados = this.lerDados();
-        const torcedores = dados.torcedores;
-        torcedores.push(torcedor);
-        const json = JSON.stringify(dados);
+        dados.torcedores.push(torcedor);
+        const json = JSON.stringify(dados, null, 2);
         fs_1.default.writeFileSync(this.caminhoArquivo, json, "utf-8");
     }
     buscarPorCpf(cpf) {
         const dados = this.lerDados();
-        const torcedores = dados.torcedores;
-        const torcedorEncontrado = torcedores.find((torcedor) => torcedor.cpf === cpf);
+        const torcedorEncontrado = dados.torcedores.find((t) => t.cpf === cpf);
         if (torcedorEncontrado) {
             const torcedor = new Torcedor_1.default(torcedorEncontrado.nome, torcedorEncontrado.cpf, torcedorEncontrado.senha);
             torcedor.setId(torcedorEncontrado.id);
-            torcedor.setDataNascimento(torcedorEncontrado.data_nascimento);
+            torcedor.setDataNascimento(torcedorEncontrado.dataNascimento);
             torcedor.setEmail(torcedorEncontrado.email);
             torcedor.setAdimplente(torcedorEncontrado.adimplente);
             torcedor.setPlano(torcedorEncontrado.plano);

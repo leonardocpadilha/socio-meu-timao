@@ -26,24 +26,31 @@ export default class Partida {
   }
 
   public reservarIngresso(quantidade?: number): void;
-  public reservarIngresso(partida: string, quantidade?: number): void;
+  public reservarIngresso(adversario: string, quantidade?: number): void;
   public reservarIngresso(param1?: number | string, param2?: number): void {
     let quantidade: number = 1;
+
     if (typeof param1 === "number") {
       quantidade = param1;
-    } else if (typeof param2 === "string") {
-      if (param1 !== this.adversario) {
+    } else if (typeof param1 === "string") {
+      if (param1.toLowerCase() !== this.adversario.toLowerCase()) {
+        console.log(`Partida incorreta! O adversário desta partida é ${this.adversario}.`);
         return;
       }
       if (typeof param2 === "number") {
         quantidade = param2;
       }
     }
+
     if (quantidade <= 0) {
+      console.log("A quantidade de ingressos deve ser maior que zero.");
       return;
     }
+
     if (this.ingressosDisponiveis >= quantidade) {
       this.ingressosDisponiveis -= quantidade;
+    } else {
+      console.log("Não há ingressos suficientes disponíveis.");
     }
   }
 

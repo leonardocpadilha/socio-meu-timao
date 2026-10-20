@@ -4,9 +4,19 @@
       "id": "1790732157345",
       "nome": "Marcelo da Silva",
       "cpf": "100.789.456-12",
-      "data_nascimento": "15/12/2012",
+      "dataNascimento": "15/12/2012",
       "email": "marcelo@gmail.com",
       "senha": "tsteste12",
+      "adimplente": true,
+      "plano": null
+    },
+    {
+      "id": "1792466592496",
+      "nome": "Francisco Munhoz",
+      "cpf": "690.789.456-18",
+      "dataNascimento": "14/03/1995",
+      "email": "franciscom@gmail.com",
+      "senha": "senha123",
       "adimplente": true,
       "plano": null
     }
