@@ -23,5 +23,4 @@ export default abstract class PlanoFiel {
 
     public abstract calcularValorIngresso(precoBase: number): number;
 
-    public abstract calcularDescontoLoja(valorProduto: number): number;
 }

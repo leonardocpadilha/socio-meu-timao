@@ -13,7 +13,4 @@ export default class PlanoFielMundial extends PlanoFiel {
     return precoBase * 0.25;
   }
 
-  public calcularDescontoLoja(valorProduto: number): number {
-    return valorProduto * 0.75;
-  }
 }

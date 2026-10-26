@@ -13,7 +13,4 @@ export default class PlanoFielInvasao extends PlanoFiel {
     return precoBase * 0.5;
   }
 
-  public calcularDescontoLoja(valorProduto: number): number {
-    return valorProduto * 0.8;
-  }
 }

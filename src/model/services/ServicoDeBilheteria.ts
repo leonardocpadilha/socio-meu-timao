@@ -5,8 +5,8 @@ import Ingresso from "../domain/Ingresso";
 export default class ServicoDeBilheteria {
   private partidas: Partida[] = [
     new Partida("Palmeiras", 100.0, 50),
-    new Partida("São Paulo", 80.0, 40),
-    new Partida("Santos", 60.0, 30),
+    new Partida("São Paulo", 100.0, 40),
+    new Partida("Santos", 100.0, 30),
   ];
 
   public getPartidas(): Partida[] {
