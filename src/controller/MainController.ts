@@ -68,26 +68,34 @@ export default class MainController {
       return;
     }
 
-    this.servicoDeTorcedor.cadastrar(novoTorcedor);
-    this.mainScreen.mostrarMensagem(
-      `Cadastro realizado com sucesso! Plano ${novoTorcedor.getPlano()?.getNome()} ativado.`,
-    );
+    try {
+      this.servicoDeTorcedor.cadastrar(novoTorcedor);
+      this.mainScreen.mostrarMensagem(
+        `Cadastro realizado com sucesso! Plano ${novoTorcedor.getPlano()?.getNome()} ativado.`,
+      );
+    } catch (error: any) {
+      this.mainScreen.mostrarMensagem(error.message);
+    }
   }
 
   private loginTorcedor(): void {
-    const dadosLogin = this.mainScreen.solicitarDadosLogin();
-    const torcedorEncontrado = this.servicoDeTorcedor.buscarPorCpf(dadosLogin.cpf);
-    if (!torcedorEncontrado) {
-      this.mainScreen.mostrarMensagem("CPF não encontrado. Por favor, cadastre-se primeiro.");
-      return;
+    try {
+      const dadosLogin = this.mainScreen.solicitarDadosLogin();
+      const torcedorEncontrado = this.servicoDeTorcedor.buscarPorCpf(dadosLogin.cpf);
+      if (!torcedorEncontrado) {
+        this.mainScreen.mostrarMensagem("CPF não encontrado. Por favor, cadastre-se primeiro.");
+        return;
+      }
+      if (torcedorEncontrado.getSenha() !== dadosLogin.senha) {
+        this.mainScreen.mostrarMensagem("Senha incorreta. Por favor, tente novamente.");
+        return;
+      }
+      this.torcedorLogado = torcedorEncontrado;
+      this.mainScreen.mostrarBoasVindas(torcedorEncontrado.getNome());
+      this.menuTorcedorLogado();
+    } catch (error: any) {
+      this.mainScreen.mostrarMensagem(error.message);
     }
-    if (torcedorEncontrado.getSenha() !== dadosLogin.senha) {
-      this.mainScreen.mostrarMensagem("Senha incorreta. Por favor, tente novamente.");
-      return;
-    }
-    this.torcedorLogado = torcedorEncontrado;
-    this.mainScreen.mostrarBoasVindas(torcedorEncontrado.getNome());
-    this.menuTorcedorLogado();
   }
 
   private menuTorcedorLogado(): void {
@@ -115,22 +123,26 @@ export default class MainController {
   private comprarIngresso(): void {
     if (!this.torcedorLogado) return;
 
-    const partidas = this.servicoDeBilheteria.getPartidas();
-    const indice = this.mainScreen.selecionarPartida(partidas);
-    if (indice === -1) {
-      return;
-    }
+    try {
+      const partidas = this.servicoDeBilheteria.getPartidas();
+      const indice = this.mainScreen.selecionarPartida(partidas);
+      if (indice === -1) {
+        return;
+      }
 
-    const partidaEscolhida = partidas[indice];
-    const ingresso = this.servicoDeBilheteria.processarCompra(this.torcedorLogado, partidaEscolhida);
+      const partidaEscolhida = partidas[indice];
+      const ingresso = this.servicoDeBilheteria.processarCompra(this.torcedorLogado, partidaEscolhida);
 
-    if (ingresso) {
-      this.ultimoIngresso = ingresso;
-      this.mainScreen.mostrarSucessoCompra(partidaEscolhida, ingresso);
-    } else {
-      this.mainScreen.mostrarMensagem(
-        "Não foi possível comprar o ingresso (sem plano ativo, sem vagas ou torcedor inadimplente).",
-      );
+      if (ingresso) {
+        this.ultimoIngresso = ingresso;
+        this.mainScreen.mostrarSucessoCompra(partidaEscolhida, ingresso);
+      } else {
+        this.mainScreen.mostrarMensagem(
+          "Não foi possível comprar o ingresso (sem plano ativo, sem vagas ou torcedor inadimplente).",
+        );
+      }
+    } catch (error: any) {
+      this.mainScreen.mostrarMensagem(error.message);
     }
   }
 

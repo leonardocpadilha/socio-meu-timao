@@ -14,8 +14,5 @@ class PlanoFielDemocracia extends PlanoFiel_1.default {
     calcularValorIngresso(precoBase) {
         return precoBase * 0.75;
     }
-    calcularDescontoLoja(valorProduto) {
-        return valorProduto * 0.9;
-    }
 }
 exports.default = PlanoFielDemocracia;

@@ -68,23 +68,33 @@ class MainController {
             this.mainScreen.mostrarOpcaoInvalida();
             return;
         }
-        this.servicoDeTorcedor.cadastrar(novoTorcedor);
-        this.mainScreen.mostrarMensagem(`Cadastro realizado com sucesso! Plano ${novoTorcedor.getPlano()?.getNome()} ativado.`);
+        try {
+            this.servicoDeTorcedor.cadastrar(novoTorcedor);
+            this.mainScreen.mostrarMensagem(`Cadastro realizado com sucesso! Plano ${novoTorcedor.getPlano()?.getNome()} ativado.`);
+        }
+        catch (error) {
+            this.mainScreen.mostrarMensagem(error.message);
+        }
     }
     loginTorcedor() {
-        const dadosLogin = this.mainScreen.solicitarDadosLogin();
-        const torcedorEncontrado = this.servicoDeTorcedor.buscarPorCpf(dadosLogin.cpf);
-        if (!torcedorEncontrado) {
-            this.mainScreen.mostrarMensagem("CPF não encontrado. Por favor, cadastre-se primeiro.");
-            return;
+        try {
+            const dadosLogin = this.mainScreen.solicitarDadosLogin();
+            const torcedorEncontrado = this.servicoDeTorcedor.buscarPorCpf(dadosLogin.cpf);
+            if (!torcedorEncontrado) {
+                this.mainScreen.mostrarMensagem("CPF não encontrado. Por favor, cadastre-se primeiro.");
+                return;
+            }
+            if (torcedorEncontrado.getSenha() !== dadosLogin.senha) {
+                this.mainScreen.mostrarMensagem("Senha incorreta. Por favor, tente novamente.");
+                return;
+            }
+            this.torcedorLogado = torcedorEncontrado;
+            this.mainScreen.mostrarBoasVindas(torcedorEncontrado.getNome());
+            this.menuTorcedorLogado();
         }
-        if (torcedorEncontrado.getSenha() !== dadosLogin.senha) {
-            this.mainScreen.mostrarMensagem("Senha incorreta. Por favor, tente novamente.");
-            return;
+        catch (error) {
+            this.mainScreen.mostrarMensagem(error.message);
         }
-        this.torcedorLogado = torcedorEncontrado;
-        this.mainScreen.mostrarBoasVindas(torcedorEncontrado.getNome());
-        this.menuTorcedorLogado();
     }
     menuTorcedorLogado() {
         while (this.torcedorLogado) {
@@ -110,19 +120,24 @@ class MainController {
     comprarIngresso() {
         if (!this.torcedorLogado)
             return;
-        const partidas = this.servicoDeBilheteria.getPartidas();
-        const indice = this.mainScreen.selecionarPartida(partidas);
-        if (indice === -1) {
-            return;
+        try {
+            const partidas = this.servicoDeBilheteria.getPartidas();
+            const indice = this.mainScreen.selecionarPartida(partidas);
+            if (indice === -1) {
+                return;
+            }
+            const partidaEscolhida = partidas[indice];
+            const ingresso = this.servicoDeBilheteria.processarCompra(this.torcedorLogado, partidaEscolhida);
+            if (ingresso) {
+                this.ultimoIngresso = ingresso;
+                this.mainScreen.mostrarSucessoCompra(partidaEscolhida, ingresso);
+            }
+            else {
+                this.mainScreen.mostrarMensagem("Não foi possível comprar o ingresso (sem plano ativo, sem vagas ou torcedor inadimplente).");
+            }
         }
-        const partidaEscolhida = partidas[indice];
-        const ingresso = this.servicoDeBilheteria.processarCompra(this.torcedorLogado, partidaEscolhida);
-        if (ingresso) {
-            this.ultimoIngresso = ingresso;
-            this.mainScreen.mostrarSucessoCompra(partidaEscolhida, ingresso);
-        }
-        else {
-            this.mainScreen.mostrarMensagem("Não foi possível comprar o ingresso (sem plano ativo, sem vagas ou torcedor inadimplente).");
+        catch (error) {
+            this.mainScreen.mostrarMensagem(error.message);
         }
     }
     cancelarIngresso() {

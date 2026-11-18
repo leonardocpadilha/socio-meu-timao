@@ -12,15 +12,33 @@ const PlanoFielMundial_1 = __importDefault(require("../model/plans/PlanoFielMund
 class TorcedorRepositoryJson {
     caminhoArquivo = "src/database/torcedores.json";
     lerDados() {
-        const arquivo = fs_1.default.readFileSync(this.caminhoArquivo, "utf-8");
-        const dados = JSON.parse(arquivo);
-        return dados;
+        try {
+            const arquivo = fs_1.default.readFileSync(this.caminhoArquivo, "utf-8");
+            const dados = JSON.parse(arquivo);
+            return dados;
+        }
+        catch (error) {
+            throw new Error("Falha ao ler o banco de dados de torcedores.");
+        }
     }
     salvar(torcedor) {
         const dados = this.lerDados();
-        dados.torcedores.push(torcedor);
-        const json = JSON.stringify(dados, null, 2);
-        fs_1.default.writeFileSync(this.caminhoArquivo, json, "utf-8");
+        const plano = torcedor.getPlano();
+        dados.torcedores.push({
+            nome: torcedor.getNome(),
+            cpf: torcedor.getCpf(),
+            dataNascimento: torcedor.getDataNascimento(),
+            senha: torcedor.getSenha(),
+            adimplente: torcedor.getAdimplente(),
+            plano: plano ? { nome: plano.getNome() } : null,
+        });
+        try {
+            const json = JSON.stringify(dados, null, 2);
+            fs_1.default.writeFileSync(this.caminhoArquivo, json, "utf-8");
+        }
+        catch (error) {
+            throw new Error("Falha ao gravar no banco de dados de torcedores.");
+        }
     }
     buscarPorCpf(cpf) {
         const dados = this.lerDados();
@@ -45,7 +63,7 @@ class TorcedorRepositoryJson {
             case "Plano Fiel Mundial":
                 return new PlanoFielMundial_1.default();
             default:
-                throw new Error(`Plano salvo desconhecido: ${nome}`);
+                return null;
         }
     }
 }

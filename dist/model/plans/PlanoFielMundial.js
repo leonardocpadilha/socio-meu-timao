@@ -15,8 +15,5 @@ class PlanoFielMundial extends PlanoFiel_1.default {
     calcularValorIngresso(precoBase) {
         return precoBase * 0.25;
     }
-    calcularDescontoLoja(valorProduto) {
-        return valorProduto * 0.75;
-    }
 }
 exports.default = PlanoFielMundial;

@@ -34,8 +34,7 @@ export default class Partida {
       quantidade = param1;
     } else if (typeof param1 === "string") {
       if (param1.toLowerCase() !== this.adversario.toLowerCase()) {
-        console.log(`Partida incorreta! O adversário desta partida é ${this.adversario}.`);
-        return;
+        throw new Error(`Partida incorreta! O adversário desta partida é ${this.adversario}.`);
       }
       if (typeof param2 === "number") {
         quantidade = param2;
@@ -43,14 +42,13 @@ export default class Partida {
     }
 
     if (quantidade <= 0) {
-      console.log("A quantidade de ingressos deve ser maior que zero.");
-      return;
+      throw new Error("A quantidade de ingressos deve ser maior que zero.");
     }
 
     if (this.ingressosDisponiveis >= quantidade) {
       this.ingressosDisponiveis -= quantidade;
     } else {
-      console.log("Não há ingressos suficientes disponíveis.");
+      throw new Error("Não há ingressos suficientes disponíveis.");
     }
   }
 

@@ -8,8 +8,8 @@ const Ingresso_1 = __importDefault(require("../domain/Ingresso"));
 class ServicoDeBilheteria {
     partidas = [
         new Partida_1.default("Palmeiras", 100.0, 50),
-        new Partida_1.default("São Paulo", 80.0, 40),
-        new Partida_1.default("Santos", 60.0, 30),
+        new Partida_1.default("São Paulo", 100.0, 40),
+        new Partida_1.default("Santos", 100.0, 30),
     ];
     getPartidas() {
         return this.partidas;

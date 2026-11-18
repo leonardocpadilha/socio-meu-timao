@@ -10,10 +10,13 @@ export class TorcedorRepositoryJson implements ITorcedorRepository {
   private caminhoArquivo = "src/database/torcedores.json";
 
   private lerDados() {
-    const arquivo = fs.readFileSync(this.caminhoArquivo, "utf-8");
-    const dados = JSON.parse(arquivo);
-
-    return dados;
+    try {
+      const arquivo = fs.readFileSync(this.caminhoArquivo, "utf-8");
+      const dados = JSON.parse(arquivo);
+      return dados;
+    } catch (error) {
+      throw new Error("Falha ao ler o banco de dados de torcedores.");
+    }
   }
 
   public salvar(torcedor: Torcedor): void {
@@ -28,8 +31,12 @@ export class TorcedorRepositoryJson implements ITorcedorRepository {
       plano: plano ? { nome: plano.getNome() } : null,
     });
 
-    const json = JSON.stringify(dados, null, 2);
-    fs.writeFileSync(this.caminhoArquivo, json, "utf-8");
+    try {
+      const json = JSON.stringify(dados, null, 2);
+      fs.writeFileSync(this.caminhoArquivo, json, "utf-8");
+    } catch (error) {
+      throw new Error("Falha ao gravar no banco de dados de torcedores.");
+    }
   }
 
   public buscarPorCpf(cpf: string): Torcedor | null {

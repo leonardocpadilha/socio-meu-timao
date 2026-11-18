@@ -15,8 +15,5 @@ class PlanoFielInvasao extends PlanoFiel_1.default {
     calcularValorIngresso(precoBase) {
         return precoBase * 0.5;
     }
-    calcularDescontoLoja(valorProduto) {
-        return valorProduto * 0.8;
-    }
 }
 exports.default = PlanoFielInvasao;

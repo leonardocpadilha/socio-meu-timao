@@ -6,6 +6,10 @@ class ServicoDeTorcedor {
         this.repository = repository;
     }
     cadastrar(torcedor) {
+        const torcedorExistente = this.repository.buscarPorCpf(torcedor.getCpf());
+        if (torcedorExistente) {
+            throw new Error("Já existe um torcedor cadastrado com este CPF.");
+        }
         this.repository.salvar(torcedor);
     }
     buscarPorCpf(cpf) {
