@@ -34,4 +34,20 @@ export default class ServicoDeTorcedor {
   public buscarPorCpf(cpf: string): Torcedor | null {
     return this.repository.buscarPorCpf(cpf);
   }
+
+  public listarTodos(): Torcedor[] {
+    return this.repository.listarTodos();
+  }
+
+  public buscarPorNome(termo: string): Torcedor[] {
+    return this.repository.buscarPorNome(termo);
+  }
+
+  public buscarPorPlano(nomePlano: string): Torcedor[] {
+    return this.repository.buscarPorPlano(nomePlano);
+  }
+
+  public listarOrdenadosPorNome(): Torcedor[] {
+    return this.repository.listarOrdenadosPorNome();
+  }
 }

@@ -43,18 +43,41 @@ export class TorcedorRepositoryJson implements ITorcedorRepository {
     const dados = this.lerDados();
     const torcedorEncontrado = dados.torcedores.find((t: any) => t.cpf === cpf);
 
-    if (torcedorEncontrado) {
-      const torcedor = new Torcedor(
-        torcedorEncontrado.nome,
-        torcedorEncontrado.cpf,
-        torcedorEncontrado.senha,
-      );
-      torcedor.setDataNascimento(torcedorEncontrado.dataNascimento);
-      torcedor.setAdimplente(torcedorEncontrado.adimplente);
-      torcedor.setPlano(this.criarPlano(torcedorEncontrado.plano?.nome));
-      return torcedor;
-    }
-    return null;
+    return torcedorEncontrado ? this.instanciarTorcedor(torcedorEncontrado) : null;
+  }
+
+  public listarTodos(): Torcedor[] {
+    const dados = this.lerDados();
+    return dados.torcedores.map((t: any) => this.instanciarTorcedor(t));
+  }
+
+  public buscarPorNome(termo: string): Torcedor[] {
+    const termoNormalizado = termo.trim().toLowerCase();
+    return this.listarTodos().filter((t) =>
+      t.getNome().toLowerCase().includes(termoNormalizado),
+    );
+  }
+
+  public buscarPorPlano(nomePlano: string): Torcedor[] {
+    const planoNormalizado = nomePlano.trim().toLowerCase();
+    return this.listarTodos().filter((t) => {
+      const plano = t.getPlano();
+      return plano ? plano.getNome().toLowerCase() === planoNormalizado : false;
+    });
+  }
+
+  public listarOrdenadosPorNome(): Torcedor[] {
+    return this.listarTodos().sort((a, b) =>
+      a.getNome().localeCompare(b.getNome(), "pt-BR", { sensitivity: "base" }),
+    );
+  }
+
+  private instanciarTorcedor(dado: any): Torcedor {
+    const torcedor = new Torcedor(dado.nome, dado.cpf, dado.senha);
+    torcedor.setDataNascimento(dado.dataNascimento);
+    torcedor.setAdimplente(dado.adimplente);
+    torcedor.setPlano(this.criarPlano(dado.plano?.nome));
+    return torcedor;
   }
 
   private criarPlano(nome: string | undefined): PlanoFiel | null {

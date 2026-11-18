@@ -28,5 +28,17 @@ class ServicoDeTorcedor {
     buscarPorCpf(cpf) {
         return this.repository.buscarPorCpf(cpf);
     }
+    listarTodos() {
+        return this.repository.listarTodos();
+    }
+    buscarPorNome(termo) {
+        return this.repository.buscarPorNome(termo);
+    }
+    buscarPorPlano(nomePlano) {
+        return this.repository.buscarPorPlano(nomePlano);
+    }
+    listarOrdenadosPorNome() {
+        return this.repository.listarOrdenadosPorNome();
+    }
 }
 exports.default = ServicoDeTorcedor;

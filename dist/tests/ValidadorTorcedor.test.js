@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MockTorcedorRepository = void 0;
 const Torcedor_1 = __importDefault(require("../model/domain/Torcedor"));
 const ValidadorNomeTorcedor_1 = require("../validators/torcedor/ValidadorNomeTorcedor");
 const ValidadorCpfTorcedor_1 = require("../validators/torcedor/ValidadorCpfTorcedor");
@@ -17,7 +18,25 @@ class MockTorcedorRepository {
     buscarPorCpf(cpf) {
         return this.torcedores.find((t) => t.getCpf() === cpf) ?? null;
     }
+    listarTodos() {
+        return [...this.torcedores];
+    }
+    buscarPorNome(termo) {
+        const termoNormalizado = termo.trim().toLowerCase();
+        return this.torcedores.filter((t) => t.getNome().toLowerCase().includes(termoNormalizado));
+    }
+    buscarPorPlano(nomePlano) {
+        const planoNormalizado = nomePlano.trim().toLowerCase();
+        return this.torcedores.filter((t) => {
+            const plano = t.getPlano();
+            return plano ? plano.getNome().toLowerCase() === planoNormalizado : false;
+        });
+    }
+    listarOrdenadosPorNome() {
+        return [...this.torcedores].sort((a, b) => a.getNome().localeCompare(b.getNome()));
+    }
 }
+exports.MockTorcedorRepository = MockTorcedorRepository;
 describe("Testes do Padrão Chain of Responsibility para Validação de Torcedor", () => {
     let mockRepo;
     beforeEach(() => {
@@ -70,7 +89,6 @@ describe("Testes do Padrão Chain of Responsibility para Validação de Torcedor
         });
         test("Deve interromper no primeiro elo que falhar (fail-fast)", () => {
             const servico = new ServicoDeTorcedor_1.default(mockRepo);
-            // Nome inválido E CPF inválido. Deve estourar primeiro o erro do nome!
             const torcedorInvalido = new Torcedor_1.default("A", "1", "1");
             expect(() => servico.cadastrar(torcedorInvalido)).toThrow("O nome do torcedor deve ter no mínimo 3 caracteres.");
         });
